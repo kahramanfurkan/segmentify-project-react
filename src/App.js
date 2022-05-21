@@ -22,7 +22,6 @@ function App() {
         axios.get('https://api.npoint.io/ceec662bde0d9ba4f7cc/responses/0/0/params/')
             .then(response => {
                 arrangeCategoryTitlesAndInitialData(response.data.userCategories);
-                //console.log(response.data.recommendedProducts['Size Özel'])
             })
             .catch(error => {
                 console.log(error);
@@ -34,7 +33,6 @@ function App() {
         axios.get('https://api.npoint.io/ceec662bde0d9ba4f7cc/responses/0/0/params/recommendedProducts')
             .then(response => {
                 setSelectedCategoryItems(response.data[`${selectedCategory.categoryName}`]);
-                console.log(selectedCategoryItems)
                 setIsLoading(false);
             })
             .catch(error => {
@@ -52,7 +50,7 @@ function App() {
 
         setCategories(categories);
         setSelectedCategory({categoryIndex: 0, categoryName: 'Size Özel'});
-        setCategory(0, 'Size Özel')
+        setCategory(0, 'Size Özel');
     }
 
 
@@ -83,32 +81,31 @@ function App() {
 
     const toggleCartButton = (itemIndex) => {
         let tempCart = [...cart];
-        if(tempCart.includes(itemIndex)) {
-           tempCart = tempCart.filter(item => item !== itemIndex);
-           showToast('remove');
-        }else {
+        if (tempCart.includes(itemIndex)) {
+            tempCart = tempCart.filter(item => item !== itemIndex);
+            showToast('remove');
+        } else {
             tempCart.push(itemIndex);
             showToast('add');
         }
         setCart(tempCart);
-        console.log("cartt "+JSON.stringify(cart))
     }
 
     return (
         <div className="container">
-                <div>
-                    <h2>Sizin için Seçtiklerimiz</h2>
-                    <div className="second-row">
-                        <Navbar
-                            categories={categories}
-                            setCategory={setCategory}
-                        />
-                        <div className="cards-area">
-                            {isLoading &&
-                                <div className="loader-container">
-                                    <ReactLoading type={"spin"} width={50} height={50} color={"rgba(117,114,114,0.35)"}/>
-                                </div>}
-                            {!isLoading &&
+            <div>
+                <h2>Sizin için Seçtiklerimiz</h2>
+                <div className="second-row">
+                    <Navbar
+                        categories={categories}
+                        setCategory={setCategory}
+                    />
+                    <div className="cards-area">
+                        {isLoading &&
+                            <div className="loader-container">
+                                <ReactLoading type={"spin"} width={50} height={50} color={"rgba(117,114,114,0.35)"}/>
+                            </div>}
+                        {!isLoading &&
                             <Swiper
                                 spaceBetween={0}
                                 slidesPerView={1}
@@ -131,10 +128,10 @@ function App() {
                                     </SwiperSlide>
                                 ))}
                             </Swiper>}
-                        </div>
-
                     </div>
+
                 </div>
+            </div>
             <ToastContainer/>
             <div className="cart-container">
                 <span className="item-length">{cart.length}</span>
@@ -150,7 +147,8 @@ function App() {
 
             <div className="signature">
                 <img src={process.env.PUBLIC_URL + '/favicon.png'} width={25}/>
-                Segmentify işe alım projesi - <a href="https://www.linkedin.com/in/furkan-kahraman-377889208/" target="_blank">Furkan Kahraman</a>
+                Segmentify işe alım projesi - <a href="https://www.linkedin.com/in/furkan-kahraman-377889208/"
+                                                 target="_blank">Furkan Kahraman</a>
             </div>
         </div>
     );
