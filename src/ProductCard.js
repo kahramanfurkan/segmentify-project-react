@@ -20,8 +20,8 @@ const ProductCard = props => {
                 </div>
 
                 <div className="card-button">
-                    <button onClick={()=> {props.toggleCartButton(props.index)}}>
-                        {props.cart && props.cart.includes(props.index) ? "Sepetten Çıkar" : "Sepete Ekle"}
+                    <button onClick={()=> {props.toggleCartButton(props.index,props.image,props.title,props.price,props.priceText)}}>
+                        {props.cartIndexes && props.cartIndexes.includes(props.index) ? "Sepetten Çıkar" : "Sepete Ekle"}
                     </button>
                 </div>
 

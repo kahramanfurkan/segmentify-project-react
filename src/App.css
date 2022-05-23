@@ -99,6 +99,7 @@
 
 .nav-item {
     height: 50px;
+    cursor: pointer;
 }
 
 .nav-item .text {
@@ -138,6 +139,7 @@
     margin-right: 4vw;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .cart-container .item-length {
@@ -158,6 +160,10 @@
     align-items: center;
 }
 
+.swiper-wrapper {
+    cursor: pointer;
+}
+
 .signature {
     position: fixed;
     bottom: 0;
@@ -171,6 +177,73 @@
 
 .signature img {
     margin-right: 5px;
+}
+
+.cart-modal {
+    width: 300px;
+    height: 500px;
+    z-index: 99;
+    border-radius: 5px;
+    left: unset !important;
+    right: 0;
+    margin-top: 6vw;
+    margin-right: 4vw;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.cart-item {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 5px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 2vw;
+}
+
+.cart-item .cart-item-image {
+    border-radius: 5px;
+    width: 36px;
+}
+
+.cart-item .cart-item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
+.cart-item-pricetext {
+    font-weight: bold;
+    font-size: small;
+}
+
+#cart-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 1vw;
+    margin-top: 1vw;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.cart-total-area {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    background-color: #2249BA;
+    color: white;
+    width: 100%;
+    height: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
 }
 
 @media screen and (max-width: 992px) {
@@ -231,6 +304,27 @@
 
     .signature {
         display: none;
+    }
+
+    .cart-modal {
+        width:100%;
+        height:100%;
+        margin: auto;
+        padding: 0;
+    }
+
+    .cart-item {
+        margin-bottom: 3vw;
+    }
+
+    .cart-total-area {
+        position: fixed;
+    }
+
+    #cart-close-button {
+        margin-right: 3vw;
+        margin-top: 3vw;
+        font-size: 20px;
     }
 
 }

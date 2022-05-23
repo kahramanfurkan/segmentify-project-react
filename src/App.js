@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Suspense, lazy} from 'react';
 import './App.css';
 import axios from "axios";
 import ReactLoading from 'react-loading';
@@ -9,12 +9,16 @@ import {toast, ToastContainer} from 'react-toastify';
 import {injectStyle} from "react-toastify/dist/inject-style";
 import Navbar from "./Navbar";
 import ProductCard from "./ProductCard";
+import Cart from "./Cart";
 
 function App() {
     const [categories, setCategories] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [cart, setCart] = useState([]);
+    const [cartIndexes, setCartIndexes] = useState([]);
+    const [cartTotal, setCartTotal] = useState(0);
+    const [isCartOpen, setIsCartOpen] = useState(false);
     const [selectedCategoryItems, setSelectedCategoryItems] = useState(null);
 
     useEffect(() => {
@@ -49,7 +53,6 @@ function App() {
         });
 
         setCategories(categories);
-        setSelectedCategory({categoryIndex: 0, categoryName: 'Size Özel'});
         setCategory(0, 'Size Özel');
     }
 
@@ -68,27 +71,55 @@ function App() {
     const showToast = (type) => {
         const options = {
             position: "bottom-right",
-            autoClose: 1500,
+            autoClose: 500,
             hideProgressBar: true,
             closeButton: true,
+            theme: 'dark'
         }
         if (type === 'add') {
             toast.success('Ürün sepete eklendi.', options);
-        } else {
+        }else if(type === 'clear') {
+            toast.info('Sepet başarıyla temizlendi.', options);
+        }else {
             toast.warning('Ürün sepetten çıkarıldı.', options);
         }
     }
 
-    const toggleCartButton = (itemIndex) => {
+    const toggleCartButton = (itemIndex, itemImage, itemName, itemPrice, itemPriceText) => {
         let tempCart = [...cart];
-        if (tempCart.includes(itemIndex)) {
-            tempCart = tempCart.filter(item => item !== itemIndex);
+
+        if (cartIndexes.includes(itemIndex)) {
+            tempCart = tempCart.filter(item => item.index !== itemIndex);
+            setCartIndexes(cartIndexes.filter(index => index !== itemIndex));
+            setCartTotal(cartTotal-itemPrice)
             showToast('remove');
         } else {
-            tempCart.push(itemIndex);
+            tempCart.push({
+                index: itemIndex,
+                image: itemImage,
+                name: itemName,
+                price: itemPrice,
+                priceText: itemPriceText
+            });
+            setCartIndexes([...cartIndexes, itemIndex]);
+            setCartTotal(cartTotal+itemPrice)
             showToast('add');
         }
         setCart(tempCart);
+    };
+
+    const deleteFromCart = (itemIndex,itemPrice) => {
+        setCart(cart.filter(item => item.index !== itemIndex));
+        setCartIndexes(cartIndexes.filter(index => index !== itemIndex));
+        setCartTotal(cartTotal-itemPrice)
+        showToast('remove');
+    };
+
+    const clearCart = () => {
+        setCart([]);
+        setCartTotal(0);
+        setCartIndexes([]);
+        showToast('clear');
     }
 
     return (
@@ -118,12 +149,14 @@ function App() {
                                     <SwiperSlide key={i}>
                                         <ProductCard
                                             index={i}
-                                            image={selectedCategoryItems[i].image}
-                                            title={selectedCategoryItems[i].name}
-                                            priceText={selectedCategoryItems[i].priceText}
-                                            shipping={selectedCategoryItems[i].params.shippingFee}
+                                            image={item.image}
+                                            title={item.name}
+                                            price={item.price}
+                                            priceText={item.priceText}
+                                            shipping={item.params.shippingFee}
                                             toggleCartButton={toggleCartButton}
                                             cart={cart}
+                                            cartIndexes={cartIndexes}
                                         />
                                     </SwiperSlide>
                                 ))}
@@ -133,7 +166,7 @@ function App() {
                 </div>
             </div>
             <ToastContainer/>
-            <div className="cart-container">
+            <div className="cart-container" onClick={() => setIsCartOpen(!isCartOpen)}>
                 <span className="item-length">{cart.length}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#2249BA"
                      className="bi bi-cart2" viewBox="0 0 16 16">
@@ -144,6 +177,15 @@ function App() {
                         1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
                 </svg>
             </div>
+
+            <Cart
+                cart={cart}
+                clearCart={clearCart}
+                cartTotal={cartTotal}
+                isCartOpen={isCartOpen}
+                setIsCartOpen={setIsCartOpen}
+                deleteFromCart={deleteFromCart}
+            />
 
             <div className="signature">
                 <img src={process.env.PUBLIC_URL + '/favicon.png'} width={25}/>
