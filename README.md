@@ -2,7 +2,7 @@
 
 #### Live Demo => [Segmentify React Demo](https://segmentify-project-react-version.netlify.app)
 
-***Kullanılacak olan veri Google Drive'da bulunduğundan ve api istekleri key gerektirdiğinden JSON verisi indirilip npoint 'e upload edildi.Requestler buraya yapıldı.Veri bire bir aynıdır.Npoint linki aşağıda mevcuttur.***
+***Kullanılacak olan veri Google Drive'da bulunduğundan ve api istekleri key gerektirdiğinden JSON verisi indirilip [npoint](https://www.npoint.io/) 'e upload edildi.Requestler buraya yapıldı.Veri bire bir aynıdır.Npoint linki aşağıda mevcuttur.***
 
 #### Kullanılan kütüphaneler :
 
