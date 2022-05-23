@@ -53,13 +53,13 @@ function App() {
         });
 
         setCategories(categories);
-        setCategory(0, 'Size Özel');
+        setCategory(0, 'Size Özel','Size Özel');
     }
 
 
-    const setCategory = (categoryIndex, categoryName) => {
+    const setCategory = (categoryIndex, categoryName,categoryShortedName) => {
         setIsLoading(true);
-        setSelectedCategory({categoryIndex: categoryIndex, categoryName: categoryName});
+        setSelectedCategory({categoryIndex: categoryIndex, categoryName: categoryName, categoryShortedName: categoryShortedName});
 
         const navItems = document.querySelectorAll('.nav-item');
         for (let i = 0; i < navItems.length; i++) {
@@ -125,7 +125,7 @@ function App() {
     return (
         <div className="container">
             <div>
-                <h2>Sizin için Seçtiklerimiz</h2>
+                <h3>{selectedCategory.categoryName}</h3>
                 <div className="second-row">
                     <Navbar
                         categories={categories}
